@@ -1,0 +1,35 @@
+version: '3.4'
+
+services:
+  libraryapp.web.api:
+    image: ${DOCKER_REGISTRY-}libraryappwebapi
+    container_name: webapi
+    ports:
+      - "5000:80"
+      - "6000:443"
+    build:
+      context: .
+      dockerfile: LibraryApp.Web.Api/Dockerfile
+    networks:
+      - library-network
+
+  mongodb:
+    image: mongo:latest
+    hostname: mongodb
+    container_name: nosqldb
+    volumes:
+      - ./db/mongodb/mongod.conf:/etc/mongod.conf
+      - ./db/mongodb/initdb.d/:/docker-entrypoint-initdb.d/
+      - ./db/mongodb/data/db/:/data/db/
+      - ./db/mongodb/data/log/:/var/log/mongodb/
+    env_file:
+      - db/.env
+    ports:
+      - "27017:27017"
+    command: [ "-f", "/etc/mongod.conf" ]
+    networks:
+      - library-network
+
+networks:
+  library-network:
+    driver: bridge
