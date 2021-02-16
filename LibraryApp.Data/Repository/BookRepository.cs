@@ -78,19 +78,10 @@ namespace LibraryApp.Data.Repository
                 throw new Exception("Invalid.");
             }
 
-            var loan = new BookLoan()
-            {
-                User = user,
-                Borrowed = DateTime.Now
-            };
-
             var filter = Builders<Book>.Filter;
 
             Collection.UpdateOne(
-                Builders<Book>.Filter.And(
-                    Builders<Book>.Filter.Eq(b => b.Id, bookId),
-                    Builders<Book>.Filter.ElemMatch(b => b.Loans, l => l.User == user)
-                ),
+                b => b.Id == bookId && b.Loans.Any(l => l.Returned == null && l.User == user),
                 Builders<Book>.Update
                     .Set(x => x.Loans[-1].Returned, DateTime.Now)
             );
