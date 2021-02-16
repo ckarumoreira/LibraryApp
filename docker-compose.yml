@@ -3,6 +3,9 @@ version: '3.4'
 services:
   libraryapp.web.api:
     image: ${DOCKER_REGISTRY-}libraryappwebapi
+    ports:
+      - "5000:80"
+      - "44388:443"
     build:
       context: .
       dockerfile: LibraryApp.Web.Api/Dockerfile

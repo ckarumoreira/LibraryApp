@@ -26,13 +26,7 @@ namespace LibraryApp.Data.Connection
 
         private void Configure()
         {
-            MongoCredential credential = MongoCredential.CreateCredential("admin", "root", "root");
-            var settings = new MongoClientSettings
-            {
-                Credential = credential,
-                Server = new MongoServerAddress("mongodb", 27017)
-            };
-            var client = new MongoClient(settings);
+            var client = new MongoClient(_config.GetConnectionString("nosqldb"));
             _database = client.GetDatabase("library");
         }
     }

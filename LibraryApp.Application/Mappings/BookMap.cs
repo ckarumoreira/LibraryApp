@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using AutoMapper;
 using LibraryApp.Application.ViewModels;
 using LibraryApp.Domain.Models;
 
@@ -8,7 +9,10 @@ namespace LibraryApp.Application.Mappings
     {
         public BookMap()
         {
-            CreateMap<Book, BookViewModel>().ReverseMap();
+            CreateMap<Book, BookViewModel>()
+                .ForMember(x => x.IsAvailable, x => x.MapFrom(b => !b.Loans.Any(l => l.Returned == null)))
+            .ReverseMap()
+                .ForMember(x => x.Loans, x => x.Ignore());
         }
     }
 }

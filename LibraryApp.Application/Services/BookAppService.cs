@@ -32,13 +32,14 @@ namespace LibraryApp.Application.Services
 
         public IEnumerable<BookViewModel> GetAll()
         {
-            var result = _mapper.Map<BookViewModel[]>(_bookRepository.Get());
-            return result;
+            var result = OrderResults(_bookRepository.Get());
+            return _mapper.Map<BookViewModel[]>(result);
         }
 
         public IEnumerable<BookViewModel> GetByAuthor(string author)
         {
-            return _mapper.Map<BookViewModel[]>(_bookRepository.Get(x => x.Author.Contains(author)));
+            var result = OrderResults(_bookRepository.Get(x => x.Author.Contains(author)));
+            return _mapper.Map<BookViewModel[]>(result);
         }
 
         public BookViewModel GetById(int bookId)
@@ -48,13 +49,19 @@ namespace LibraryApp.Application.Services
 
         public IEnumerable<BookViewModel> GetByTitle(string title)
         {
-            return _mapper.Map<BookViewModel[]>(_bookRepository.Get(x => x.Title.Contains(title)));
+            var result = OrderResults(_bookRepository.Get(x => x.Title.Contains(title)));
+            return _mapper.Map<BookViewModel[]>(result);
         }
 
         public void Update(BookViewModel book)
         {
             var entity = _mapper.Map<Book>(book);
             _bookRepository.Update(entity);
+        }
+
+        private IEnumerable<Book> OrderResults(IEnumerable<Book> books)
+        {
+            return books.OrderByDescending(x => x.Loans.Count).ThenBy(x => x.Id);
         }
     }
 }
