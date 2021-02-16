@@ -36,9 +36,19 @@ namespace LibraryApp.Application.Services
             return result;
         }
 
+        public IEnumerable<BookViewModel> GetByAuthor(string author)
+        {
+            return _mapper.Map<BookViewModel[]>(_bookRepository.Get(x => x.Author.Contains(author)));
+        }
+
         public BookViewModel GetById(int bookId)
         {
             return _mapper.Map<BookViewModel>(_bookRepository.Get(b => b.Id == bookId).SingleOrDefault());
+        }
+
+        public IEnumerable<BookViewModel> GetByTitle(string title)
+        {
+            return _mapper.Map<BookViewModel[]>(_bookRepository.Get(x => x.Title.Contains(title)));
         }
 
         public void Update(BookViewModel book)

@@ -8,6 +8,10 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["LibraryApp.Web.Api/LibraryApp.Web.Api.csproj", "LibraryApp.Web.Api/"]
+COPY ["LibraryApp.IoC/LibraryApp.IoC.csproj", "LibraryApp.IoC/"]
+COPY ["LibraryApp.Data/LibraryApp.Data.csproj", "LibraryApp.Data/"]
+COPY ["LibraryApp.Domain/LibraryApp.Domain.csproj", "LibraryApp.Domain/"]
+COPY ["LibraryApp.Application/LibraryApp.Application.csproj", "LibraryApp.Application/"]
 RUN dotnet restore "LibraryApp.Web.Api/LibraryApp.Web.Api.csproj"
 COPY . .
 WORKDIR "/src/LibraryApp.Web.Api"

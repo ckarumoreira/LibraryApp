@@ -11,7 +11,11 @@ namespace LibraryApp.Application.Interfaces
 
         IEnumerable<BookViewModel> GetAll();
 
+        IEnumerable<BookViewModel> GetByAuthor(string author);
+
         BookViewModel GetById(int bookId);
+
+        IEnumerable<BookViewModel> GetByTitle(string title);
 
         void Update(BookViewModel book);
     }

@@ -39,6 +39,20 @@ namespace LibraryApp.Web.Api.Controllers
             return _bookService.GetById(id);
         }
 
+        // GET api/<BooksController>/5
+        [HttpGet("author/{author}")]
+        public IEnumerable<BookViewModel> GetByAuthor(string author)
+        {
+            return _bookService.GetByAuthor(author);
+        }
+
+        // GET api/<BooksController>/5
+        [HttpGet("title/{title}")]
+        public IEnumerable<BookViewModel> GetByTitle(string title)
+        {
+            return _bookService.GetByTitle(title);
+        }
+
         // POST api/<BooksController>
         [HttpPost]
         public void Post(BookViewModel book)
